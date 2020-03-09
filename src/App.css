@@ -36,3 +36,50 @@
     transform: rotate(360deg);
   }
 }
+
+input[type="text"] {
+    width: 20%;
+    font-weight: bold;
+    font-size: 20px;
+    border: 3px solid #7a13b6;
+    padding-left: 15px;
+    background-color: rgba(255, 255, 255, 0);
+    font-style: normal;
+    height: 50px;
+    color: #6C5B7B;
+    font-weight: bold;
+    outline: none;
+    font-style: normal;
+}
+
+input[type=text]:focus {
+    outline: #8e2ac9 solid 0.5%;
+    box-shadow: 0 0 15px #8e2ac9;
+}
+
+::placeholder {
+  color: rgba(108, 91, 123, 0.5);
+}
+
+h1 {
+  font-size: 60px;
+  color: #510180;
+}
+
+.btn {
+  margin: 25px 0;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  background: #510180;
+  border: 3px solid #510180;
+  font-size: 22px;
+  color: rgb(172, 146, 196);
+  font-weight: bold;
+}
+
+.btn:hover {
+  background: #2c0046;
+  border: 3px solid #2c0046;
+  cursor: pointer;
+}
