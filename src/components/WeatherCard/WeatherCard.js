@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Card, ListGroup } from "react-bootstrap";
+import Container from '@material-ui/core/Container';
+import {Card, ListGroup } from "react-bootstrap";
 import "./WeatherCard.scss";
 
 const WeatherCard = props => {
@@ -8,7 +9,6 @@ const WeatherCard = props => {
     <Container className="card-wrapper">
       <Card className="weather-card">
         <Card.Img
-          variant="top"
           alt="image"
           width="100"
           height="100"
@@ -20,7 +20,7 @@ const WeatherCard = props => {
           >
             {props.weather}
           </Card.Title>
-          <Card.Subtitle style={{ fontSize: "18px", color: "#b177d3" }}>
+          <Card.Subtitle style={{ fontSize: "18px", color: "#c773f8" }}>
             {props.description}
           </Card.Subtitle>
           <ListGroup style={{ marginTop: "20px" }}>

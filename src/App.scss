@@ -37,8 +37,8 @@
   }
 }
 
-input[type="text"] {
-    width: 20%;
+.city-input {
+    width: 30%;
     font-weight: bold;
     font-size: 20px;
     border: 3px solid #7a13b6;
@@ -52,7 +52,7 @@ input[type="text"] {
     font-style: normal;
 }
 
-input[type=text]:focus {
+.city-input:focus {
     outline: #8e2ac9 solid 0.5%;
     box-shadow: 0 0 15px #8e2ac9;
 }

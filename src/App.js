@@ -1,79 +1,97 @@
-import React, { useState } from "react";
-import { Container, Button } from "react-bootstrap";
+import React, { useReducer } from "react";
+import { TextField, Button, Container } from '@material-ui/core';
 import "./App.scss";
 import ax from "./services/interceptors.js";
 import WeatherData from "./components/WeatherCard/WeatherCard.js";
+import 'typeface-roboto';
+
+const initialState = {weatherData: {}, cityName: "", countryCode: "", isFound: false};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'setWeatherData':
+      return {...state, weatherData: action.weatherData};
+    case 'setCityName':
+      return {...state, cityName: action.cityName};
+    case 'setCountryCode':
+      return {...state, countryCode: action.countryCode};    
+    case 'setIsFound':
+      return {...state, isFound: action.isFound};
+    default:
+      throw new Error();
+  }
+}
 
 function App() {
-  const [weatherData, setWeatherData] = useState({});
-  const [cityName, setCityName] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [isFound, setIsFound] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const getWeather = () => {
     let q = "";
-    if (countryCode !== "" && cityName !== "") {
-      q = [cityName, countryCode].join();
-    } else if (cityName !== "") {
-      q = cityName;
+    if (state.countryCode !== "" && state.cityName !== "") {
+      q = [state.cityName, state.countryCode].join();
+    } else if (state.cityName !== "") {
+      q = state.cityName;
     } else {
       return;
     }
-    console.log(q);
     return ax
       .get("/data/2.5/weather", { params: { q: q } })
       .then(res => {
-        setWeatherData(res.data);
-        setIsFound(true);
+        dispatch({type: "setWeatherData", weatherData: res.data});
+        dispatch({type: "setIsFound", isFound: true});
         console.log(res.data);
       })
       .catch(err => {
         console.log(err);
-        setIsFound(false);
+        dispatch({type: "setIsFound", isFound: false});
       });
   };
-  // edit
+
   return (
-    <Container fluid className="App bg" style={{ paddingTop: "10px" }}>
+    <Container className="App bg" style={{ paddingTop: "10px" }}>
       <h1>IS IT RAINY TODAY?</h1>
-      <Container>
-        <input
+      <Container style={{marginBottom: "30px"}}>
+        <TextField
+          className="city-input"
+          style={{margin: "20px" }}
+          variant="outlined"
           required
-          style={{ margin: "20px" }}
           onChange={e => {
             let cityName = e.target.value;
-            setCityName(cityName);
+            dispatch({type: "setCityName", cityName: cityName});
           }}
           placeholder="Enter the city..."
           type="text"
         />
-        <input
+        <TextField
+        className="city-input"
+        variant="outlined"
           style={{ margin: "20px" }}
           onChange={e => {
             let countryCode = e.target.value;
-            setCountryCode(countryCode);
+            dispatch({type: "setCountryCode", countryCode: countryCode});
           }}
           type="text"
           placeholder="Enter the country code..."
         />
       </Container>
       <Button
-        className="btn"
+        variant="contained" color="primary"
+        style={{backgroundColor: "#510180", marginBottom: "30px", width: "150px"}}
         onClick={() => {
           getWeather();
-          console.log(weatherData);
         }}
       >
         Search
       </Button>
-      {isFound ? (
+      {state.isFound ? (
         <WeatherData
-          icon={weatherData.weather[0].icon}
-          weather={weatherData.weather[0].main}
-          description={weatherData.weather[0].description}
-          temperature={weatherData.main.temp}
-          pressure={weatherData.main.pressure}
-          humidity={weatherData.main.humidity}
+          icon={state.weatherData.weather[0].icon}
+          weather={state.weatherData.weather[0].main}
+          description={state.weatherData.weather[0].description}
+          temperature={state.weatherData.main.temp}
+          pressure={state.weatherData.main.pressure}
+          humidity={state.weatherData.main.humidity}
         />
       ) : (
         <div></div>
