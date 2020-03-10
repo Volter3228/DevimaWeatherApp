@@ -1,0 +1,18 @@
+.weather-card {
+    border: 3px solid #7615ad;
+    border-radius: 30px;
+    width: 500px;
+    padding: 30px;
+    background-color: rgba(211, 144, 255, 0.288);
+}
+
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-title {
+    font-weight: bold;
+    color: #7615ad;
+}

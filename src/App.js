@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Container, Button } from "react-bootstrap";
-import "./App.css";
-import axios from "axios";
-import WeatherData from './components/WeatherCard/WeatherCard.js';
+import "./App.scss";
+import ax from "./services/interceptors.js";
+import WeatherData from "./components/WeatherCard/WeatherCard.js";
 
 function App() {
   const [weatherData, setWeatherData] = useState({});
@@ -20,11 +20,17 @@ function App() {
       return;
     }
     console.log(q);
-    return axios.get("/data/2.5/weather", { params: { q: q } }).then(res => {
-      setWeatherData(res.data);
-      setIsFound(true);
-      console.log(res.data);
-    }).catch(err => {console.log(err); setIsFound(false)});
+    return ax
+      .get("/data/2.5/weather", { params: { q: q } })
+      .then(res => {
+        setWeatherData(res.data);
+        setIsFound(true);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsFound(false);
+      });
   };
 
   return (
@@ -55,11 +61,23 @@ function App() {
         className="btn"
         onClick={() => {
           getWeather();
+          console.log(weatherData);
         }}
       >
         Search
       </Button>
-      {isFound ? (<WeatherData icon={weatherData.icon} />) : (<div>Jopa</div>)}
+      {isFound ? (
+        <WeatherData
+          icon={weatherData.weather[0].icon}
+          weather={weatherData.weather[0].main}
+          description={weatherData.weather[0].description}
+          temperature={weatherData.main.temp}
+          pressure={weatherData.main.pressure}
+          humidity={weatherData.main.humidity}
+        />
+      ) : (
+        <div></div>
+      )}
     </Container>
   );
 }
