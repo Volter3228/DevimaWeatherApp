@@ -32,7 +32,7 @@ function App() {
         setIsFound(false);
       });
   };
-
+  // edit
   return (
     <Container fluid className="App bg" style={{ paddingTop: "10px" }}>
       <h1>IS IT RAINY TODAY?</h1>
